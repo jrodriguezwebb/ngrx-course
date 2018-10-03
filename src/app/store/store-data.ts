@@ -5,9 +5,12 @@ import { Message } from '../../../shared/model/message';
 export interface StoreData {
 
   participants: { [key: number]: Participant};
-
   threads: { [key: number]: Thread };
-
   messages: { [key: number]: Message };
-
 }
+
+export const INITIAL_STORE_DATA_STATE: StoreData = {
+  participants: { },
+  threads: { },
+  messages: { }
+};
