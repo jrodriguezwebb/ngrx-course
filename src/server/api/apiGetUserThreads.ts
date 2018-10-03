@@ -1,25 +1,28 @@
 
-import {Application,Request,Response} from 'express';
-import {AllUserData} from "../../../shared/to/all-user-data";
-import {findDbThreadsPerUser} from "../persistence/findDbThreadsPerUser";
+import {Application, Request, Response} from 'express';
+import {AllUserData} from '../../../shared/to/all-user-data';
+import {findDbThreadsPerUser} from '../persistence/findDbThreadsPerUser';
 import * as _ from 'lodash';
-import {dbMessages, dbParticipants} from "../db-data";
-import {Message} from "../../../shared/model/message";
+import {dbMessages, dbParticipants} from '../db-data';
+import {Message} from '../../../shared/model/message';
 
-export function apiGetUserThreads(app:Application) {
+export function apiGetUserThreads(app: Application) {
 
     app.route('/api/threads').get((req: Request, res: Response) => {
 
-        const participantId = parseInt(req.headers['userid']);
+        console.log(req.headers);
+        const participantId = 1;
+        // const participantId = parseInt(req.headers['userid'].toString(), 1);
 
         const threadsPerUser = findDbThreadsPerUser(participantId);
+        console.log(threadsPerUser);
 
         let messages: Message[] = [],
             participantIds: string[] = [];
 
         threadsPerUser.forEach(thread => {
 
-            const threadMessages: Message[] = _.filter(dbMessages, (message:any) => message.threadId == thread.id);
+            const threadMessages: Message[] = _.filter(dbMessages, (message: any) => message.threadId === thread.id);
 
             messages = messages.concat(threadMessages);
 
@@ -27,7 +30,7 @@ export function apiGetUserThreads(app:Application) {
 
         });
 
-        const participants = _.uniq(participantIds.map(participantId => dbParticipants[participantId]));
+        const participants = _.uniq(participantIds.map(ParticipantId => dbParticipants[ParticipantId]));
 
         const response: AllUserData = {
           participants,

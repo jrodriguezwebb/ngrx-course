@@ -18,8 +18,8 @@ export function apiSaveNewMessage(app: Application) {
 
         const payload = req.body;
 
-        const threadId = parseInt(req.params.id),
-            participantId = parseInt(req.headers['userid']);
+        const threadId = parseInt(req.params.id, 1),
+            participantId = parseInt(req.headers['userid'].toString(), 1);
 
         const message: Message = {
             id: messageIdCounter++,
@@ -36,7 +36,7 @@ export function apiSaveNewMessage(app: Application) {
         const thread = findThreadById(threadId);
         thread.messageIds.push(message.id);
 
-        const otherParticipantIds = _.keys(thread.participants).filter(id => parseInt(id) !== participantId);
+        const otherParticipantIds = _.keys(thread.participants).filter(id => parseInt(id, 1) !== participantId);
 
         otherParticipantIds.forEach(ParticipantId => {
             thread.participants[ParticipantId] += 1;

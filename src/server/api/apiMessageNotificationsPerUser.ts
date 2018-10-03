@@ -2,7 +2,7 @@
 
 
 import {Application} from 'express';
-import {dbMessagesQueuePerUser, dbMessages, dbThreads} from "../db-data";
+import {dbMessagesQueuePerUser, dbMessages, dbThreads} from '../db-data';
 
 
 export function apiMessageNotificationsPerUser(app: Application) {
@@ -10,10 +10,10 @@ export function apiMessageNotificationsPerUser(app: Application) {
 
     app.route('/api/notifications/messages').post((req, res) => {
 
-        const participantId = req.headers['userid'];
+        const participantId = req.headers['userid'].toString();
 
         if (!participantId) {
-            res.status(200).json({payload:[]});
+            res.status(200).json({payload: []});
             return;
         }
 
